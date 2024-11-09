@@ -1,9 +1,8 @@
-# Add these sections to your existing .gitignore
-
-# Project specific
+# Project specific directories
 /data/*
 !/data/.gitkeep
 !/data/raw/.gitkeep
+!/data/processed/
 !/data/processed/.gitkeep
 /output/*
 !/output/.gitkeep
@@ -15,7 +14,7 @@
 .streamlit/
 *.streamlit/
 
-# Additional data formats you might use
+# Data formats
 *.parquet
 *.feather
 *.pickle
@@ -37,10 +36,10 @@ temp/
 *.tmp
 *~
 
-# Additional Python
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
-*.ipynb_checkpoints*
+.ipynb_checkpoints*
