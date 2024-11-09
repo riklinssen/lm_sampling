@@ -1,0 +1,46 @@
+# Add these sections to your existing .gitignore
+
+# Project specific
+/data/*
+!/data/.gitkeep
+!/data/raw/.gitkeep
+!/data/processed/.gitkeep
+/output/*
+!/output/.gitkeep
+/do_files/*
+!/do_files/.gitkeep
+
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/
+*.streamlit/
+
+# Additional data formats you might use
+*.parquet
+*.feather
+*.pickle
+*.pkl
+*.h5
+*.hdf5
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.qpj
+*.geojson
+*.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*~
+
+# Additional Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.ipynb_checkpoints*

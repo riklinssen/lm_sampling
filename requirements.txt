@@ -1,0 +1,11 @@
+streamlit
+geemap
+pandas
+numpy
+geopandas
+folium
+ipyleaflet
+matplotlib
+plotly
+seaborn
+contextily
