@@ -2,6 +2,7 @@
 /data/*
 !/data/.gitkeep
 !/data/raw/.gitkeep
+!/data/temp/.gitkeep
 !/data/processed/
 !/data/processed/.gitkeep
 /output/*
