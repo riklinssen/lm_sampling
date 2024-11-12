@@ -9,7 +9,7 @@
 !/output/.gitkeep
 /do_files/*
 !/do_files/.gitkeep
-
+/scripts_old
 # Streamlit
 .streamlit/secrets.toml
 .streamlit/
