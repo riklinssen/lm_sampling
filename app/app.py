@@ -6,7 +6,7 @@ from pathlib import Path
 
 # Page config
 st.set_page_config(
-    page_title="Radio Station Coverage Analysis",
+    page_title="Radio Station Coverage Sampling (test)",
     page_icon="📻",
     layout="wide"
 )
@@ -135,8 +135,8 @@ def create_map(station_loc_gdf, station_buffers_gdf, sampled_clusters_gdf):
                 'fillOpacity': 0.7
             },
             tooltip=folium.GeoJsonTooltip(
-                fields=['station_name', 'cluster_type', 'population_count', 'centroid_lon_lat' ],
-                aliases=['Station', 'Type', 'Population', 'location of cluster centroid (Coordinate)'],
+                fields=['station_name', 'cluster_type', 'population_count', 'centroid_lon_lat', 'grid_id' ],
+                aliases=['Station', 'Type', 'Population', 'location of cluster centroid (Coordinate)', 'cluster identifier (grid_id)'],
                 style="background-color: white; color: black; font-family: arial; font-size: 12px; padding: 10px;"
             )
         ).add_to(cluster_groups[f'{station}_main'])
@@ -185,32 +185,36 @@ def create_map(station_loc_gdf, station_buffers_gdf, sampled_clusters_gdf):
     return m
 
 def main():
-    st.title("📻 Radio Station Coverage Analysis")
+    st.title("📻 Radio Station Coverage sampling LM (test)")
     
     try:
         # Load data
         station_loc_gdf, station_buffers_gdf, sampled_clusters_gdf = load_data()
         
         # Add description
-        st.write("This map shows the coverage areas and sampling clusters for radio stations in the region.")
-        st.write("The colored areas represent different coverage ranges (20km, 25km, 40km, and 60km) and sampling clusters.")
+        st.write("This map shows the assumed coverage areas and sampling clusters for radio stations in the region.")
+        st.write("Ranges show assumed coverage areas, for the sampling I've taken the 25km radios around the broadcast location as we're sure that that has good coverage")
+                        # Add analysis
+        st.header("Sampling")
+        st.write("### Key Observations:")
+        st.write("- The map shows both main and replacement clusters (dashed outline) clusters for each station")
+        st.write("- Dwanwana FM and Dokolo FM broadcasting locations show significant overlap in their coverage areas")
+        st.write("- Sampling done by overlaying a fishnet grid (1km by 1km cells) and sampled proportional to population size in each cell (based on overlaying worldpop data/imagery estimates), this means that sampled areas should by relatively densely populated.")
+
         
         # Display station data
         with st.expander("View Station Data"):
             st.dataframe(station_loc_gdf)
         
+
+
         # Create and display map
         m = create_map(station_loc_gdf, station_buffers_gdf, sampled_clusters_gdf)
         st_folium(m, width=1200, height=800)
-        
-        # Add analysis
-        st.header("Coverage Analysis")
-        st.write("### Key Observations:")
-        st.write("- The map shows both coverage ranges and sampling clusters for each station")
-        st.write("- Main clusters (solid fill) represent primary coverage areas")
-        st.write("- Replacement clusters (dashed outline) show alternative coverage zones")
-        st.write("- Dwanwana FM and Dokolo FM broadcasting locations show significant overlap in their coverage areas")
-        
+    
+        with st.expander("View data on sampled clusters"):
+            st.dataframe(sampled_clusters_gdf)
+
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
         st.write("Please ensure all required data files are present in the processed data directory:")
