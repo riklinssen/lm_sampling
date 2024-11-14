@@ -204,6 +204,7 @@ def main():
         
         # Display station data
         with st.expander("View Station Data"):
+            display_df = station_loc_gdf.drop(columns=['geometry'])
             st.dataframe(station_loc_gdf)
         
 
