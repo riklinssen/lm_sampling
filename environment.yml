@@ -1,9 +1,11 @@
-name: geoenv
+name: radio-map
 channels:
   - conda-forge
+  - defaults
 dependencies:
-  - python=3.10.15
-  - streamlit=1.40.0
-  - folium=0.18.0
-  - streamlit-folium=0.23.1
-  - geopandas=1.0.1
+  - python=3.10
+  - streamlit=1.31.0
+  - folium=0.15.1
+  - streamlit-folium=0.15.0
+  - geopandas=0.14.3
+  - pathlib=1.0.1
