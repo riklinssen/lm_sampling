@@ -205,7 +205,7 @@ def main():
         # Display station data
         with st.expander("View Station Data"):
             display_df = station_loc_gdf.drop(columns=['geometry'])
-            st.dataframe(station_loc_gdf)
+            st.dataframe(display_df)
         
 
 
@@ -214,7 +214,8 @@ def main():
         st_folium(m, width=1200, height=800)
     
         with st.expander("View data on sampled clusters"):
-            st.dataframe(sampled_clusters_gdf)
+            display_df_2=sampled_clusters_gdf.drop('geometry')
+            st.dataframe(display_df_2)
 
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
