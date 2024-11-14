@@ -3,15 +3,16 @@ import folium
 from streamlit_folium import st_folium
 import geopandas as gpd
 from pathlib import Path
-st.markdown("""
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    """, unsafe_allow_html=True)
 
 # Page config
 st.set_page_config(
     page_title="Radio Station Coverage Sampling (test)",
     page_icon="📻",
     layout="wide"
+    st.markdown("""
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    """, unsafe_allow_html=True)
+
 )
 
 # Setup paths
