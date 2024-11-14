@@ -135,7 +135,7 @@ def create_map(station_loc_gdf, station_buffers_gdf, sampled_clusters_gdf):
                 'fillOpacity': 0.7
             },
             tooltip=folium.GeoJsonTooltip(
-                fields=['station_name', 'cluster_type', 'population_count'],
+                fields=['station_name', 'cluster_type', 'population_count', centroid_lon_lat ],
                 aliases=['Station', 'Type', 'Population'],
                 style="background-color: white; color: black; font-family: arial; font-size: 12px; padding: 10px;"
             )
