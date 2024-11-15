@@ -204,6 +204,7 @@ def main():
         st.write("- The map shows both main and replacement clusters (dashed outline) clusters for each station")
         st.write("- Dwanwana FM and Dokolo FM broadcasting locations show significant overlap in their coverage areas")
         st.write("- Sampling done by overlaying a fishnet grid (1km by 1km cells) and sampled proportional to population size in each cell (based on overlaying worldpop data/imagery estimates), this means that sampled areas should by relatively densely populated.")
+        st.write("- Assuming: 35 clusters per radio station, 12 interviews per cluster.")
 
         
         # Display station data
