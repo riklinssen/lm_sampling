@@ -218,7 +218,7 @@ def main():
         st_folium(m, width=1200, height=800)
     
         with st.expander("View data on sampled clusters"):
-            display_df_2 = sampled_clusters_gdf.copy().drop(['count', 'sum', 'nodata', 'valid_pixels', 'nodata_pixels', 'total_pixels', 'prop_nodata'])
+            display_df_2 = sampled_clusters_gdf.copy().drop(columns=['count', 'sum', 'nodata', 'valid_pixels', 'nodata_pixels', 'total_pixels', 'prop_nodata'])
             display_df_2['geometry'] = display_df_2['geometry'].astype(str)
             st.dataframe(display_df_2)
 
