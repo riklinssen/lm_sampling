@@ -163,19 +163,27 @@ def create_map(station_loc_gdf, station_buffers_gdf, sampled_clusters_gdf):
         ).add_to(cluster_groups[f'{station}_replacement'])
 
     # Add station markers
+# Add station markers
     for idx, row in station_loc_gdf.iterrows():
-        folium.Marker(
+        folium.CircleMarker(
             location=[row.geometry.y, row.geometry.x],
-            popup=row['station_name'],
-            tooltip=f"Click to see {row['station_name']} location",
-            icon=folium.Icon(
-                color='white',  # This will be the background color of the pin
-                icon='info',    # Using 'info' instead of 'radio'
-                icon_color=row['color'],  # This will color the icon itself
-                prefix='fa'     # Using Font Awesome icons
-            )
+            popup=folium.Popup(
+                f"""
+                <div style='width: 150px; text-align: center'>
+                    <b>{row['station_name']}</b><br>
+                    Broadcast Location
+                </div>
+                """,
+                max_width=200
+            ),
+            tooltip=row['station_name'],  # This will show immediately on hover
+            radius=8,
+            color=row['color'],
+            fill=True,
+            fillColor=row['color'],
+            fillOpacity=1.0,
+            weight=2
         ).add_to(m)
-
 
     # Add all groups to map
     for group in station_buffer_groups.values():
