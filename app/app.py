@@ -169,12 +169,13 @@ def create_map(station_loc_gdf, station_buffers_gdf, sampled_clusters_gdf):
             popup=row['station_name'],
             tooltip=f"Click to see {row['station_name']} location",
             icon=folium.Icon(
-                color='white',
-                icon_color=row['color'],
-                icon='radio',
-                prefix='fa'
+                color='white',  # This will be the background color of the pin
+                icon='info',    # Using 'info' instead of 'radio'
+                icon_color=row['color'],  # This will color the icon itself
+                prefix='fa'     # Using Font Awesome icons
             )
         ).add_to(m)
+
 
     # Add all groups to map
     for group in station_buffer_groups.values():
