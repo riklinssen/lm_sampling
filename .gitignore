@@ -44,3 +44,5 @@ __pycache__/
 *.pyd
 .Python
 .ipynb_checkpoints*
+
+.env
