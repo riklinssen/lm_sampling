@@ -237,9 +237,11 @@ def main():
             st.header("Sampling")
             st.write("### Key Observations:")
             st.write("- The map shows both main and replacement clusters (dashed outline) clusters for each station")
-            st.write("- Dwanwana FM and Dokolo FM broadcasting locations show significant overlap in their coverage areas")
             st.write("- Sampling done by overlaying a fishnet grid (1km by 1km cells) and sampled proportional to population size in each cell")
-            st.write("- Assuming: 35 clusters per radio station, 12 interviews per cluster.")
+            st.write("- Assuming: 35 clusters per radio station, 12 interviews per cluster. Sampled main and replacement clusters. grid_id is the key cluster identifier")
+            st.write("- Sampling done by overlaying a fishnet grid (1km by 1km cells) and sampled each proportional to population size in each cell, excluded uninhabited cells, used only cells with >91 people present (worldpop 2020 estimate)")
+            st.write("- Sampling done by overlaying a fishnet grid (1km by 1km cells) and sampled each proportional to population size in each cell, excluded uninhabited cells, used only cells with >91 people present (worldpop 2020 estimate)")
+
             
             # Display station data
             with st.expander("View Station Data"):
