@@ -8,6 +8,9 @@ This project provides tools for analyzing radio station coverage areas and gener
 - Finding nearest roads and addresses for field teams
 - Visualizing coverage areas and sampling points
 
+## Data & maps of gridded areas
+See: https://lmselectiontest.streamlit.app/
+
 ## Project Structure
 ```
 ├── app/               # Streamlit web application
