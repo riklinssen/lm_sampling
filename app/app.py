@@ -27,7 +27,7 @@ def load_data():
         # Load station-related data
         station_loc_gdf = gpd.read_file(PROCESSED_DATA_DIR / 'station_loc.gpkg')
         station_buffers_gdf = gpd.read_file(PROCESSED_DATA_DIR / 'station_buffers.gpkg')
-        
+        sampling_clusters_full_data=pd.read_csv(PROCESSED_DATA_DIR/'sampling_clusters_full_data.csv') # this is the csv to be shared with datateam (contains all the relevant info but is not a g)
         # Load enumeration area layers
         enum_layers = {
             'grid_cells': gpd.read_file(PROCESSED_DATA_DIR / 'enumeration_area_data.gpkg', layer='grid_cells'),
@@ -46,11 +46,11 @@ def load_data():
             how='left'
         )
         
-        return station_loc_gdf, station_buffers_gdf, enum_layers
+        return station_loc_gdf,  station_buffers_gdf, sampling_clusters_full_data, enum_layers
     
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
-        return None, None, None
+        return None, None, None, None
 
 
 def create_station_map(station_names: list, 
@@ -217,16 +217,67 @@ def create_station_map(station_names: list,
     folium.LayerControl(collapsed=False).add_to(m)
     
     # Save the map to an HTML file
-    m.save('radio_station_map.html')
+    
 
     return m
+
+def get_data_documentation():
+    """Returns the data documentation as a markdown string"""
+    return """
+    # Data Documentation
+
+    ## Grid Cell Information
+    | Column | Description |
+    |--------|-------------|
+    | grid_id | ID of the grid cell/enumeration area |
+    | station_name | Station name that the grid cell belongs to |
+    | buffer_km | Km that grid is buffered out from radio station location/mast (25 km) |
+    | est_population_2020 | Estimated population size in grid cell (est. 2020) |
+    | cluster_type | Main or replacement cluster (35 main and 35 replacement per radio station) |
+    | geometry | Geometry/polygon of 1km by 1km grid cell (for geospatial operations) |
+
+    ## Grid Cell Location
+    | Column | Description |
+    |--------|-------------|
+    | centroid_lat | Centroid center of the grid cell latitude |
+    | centroid_lon | Centroid center of the grid cell longitude |
+    | centroid_maps_link | Link to Google Maps with location of center/centroid of grid cell |
+    | nearest_road_lat | Coordinate latitude of road nearest to grid centroid |
+    | nearest_road_lon | Coordinate longitude of road nearest to grid centroid |
+    | distance_to_road | Distance to nearest road from center/centroid of grid cell |
+    | nearest_road_maps_link | Google Maps links to location of nearest road to centroid |
+
+    ## Administrative Information / addresses of grid cell
+
+    | Column | Description |
+    |--------|-------------|
+    | nearest_address_full | Full address nearest to center of grid cell (village or other landmark from OpenStreetMap, not available in all cases) |
+    | nearest_village_lat | Coordinate latitude of nearest village/address to grid cell |
+    | nearest_village_lon | Coordinate longitude of nearest village/address to grid cell |  
+    | village | Village name nearest to grid cell/enumeration area centroid |
+    | district | District in which the grid cell/enumeration area is in |
+    | region | Region in which the grid cell/enumeration area is in |
+    | country | Country in which the grid cell/enumeration area is in |
+    | dist_point_to_nearest_address_km | Distance to nearest address/village to center of grid cell |
+
+
+
+    ## Sampling Weights
+    | Column | Description |
+    |--------|-------------|
+    | psu_prob | Sampling weights - Probability (proportional to size) of select primary sampling unit (grid cell) |
+    | psu_explanation | Sampling weights - explanation of primary sampling unit |
+    | ssu_prob | Sampling weights - Probability (proportional to size) of selecting secondary sampling unit (household) |
+    | ssu_explanation | Sampling weights - explanation of secondary sampling unit |
+    """
+
 
 def main():
     st.title("📻 Radio Station Coverage sampling LM (test)")
     
     try:
         # Load data
-        station_loc_gdf, station_buffers_gdf, enum_layers = load_data()
+        station_loc_gdf,  station_buffers_gdf, sampling_clusters_full_data, enum_layers = load_data()
         
         if station_loc_gdf is not None:
             # Add description
@@ -267,11 +318,18 @@ def main():
             
             # Display cluster data
             with st.expander("View data on sampled clusters"):
-                display_df_2 = enum_layers['grid_cells'].copy()
-                # Remove unnecessary columns if needed
-                cols_to_drop = ['geometry']  # Add any other columns you want to drop
-                display_df_2 = display_df_2.drop(columns=cols_to_drop)
-                st.dataframe(display_df_2)
+                #create 2 tabs 
+                data_tab, docs_tab = st.tabs(["Data", "Documentation"])
+                with data_tab:
+                    display_df_2 = sampling_clusters_full_data.copy()
+                    # Remove unnecessary columns if needed
+                    cols_to_drop = ['processing_success', 'found_at_radius']  # Add any other columns you want to drop
+                    display_df_2 = display_df_2.drop(columns=cols_to_drop)
+                    st.dataframe(display_df_2)
+                with docs_tab:
+                     # Display the documentation markdown
+                    st.markdown(get_data_documentation())
+
     
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
